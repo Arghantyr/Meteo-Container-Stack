@@ -1,0 +1,21 @@
+services:
+  ubuntu-app:
+    build:
+      context: ./ubuntu
+    container_name: ubuntu-data-loader
+    hostname: ubuntu_worker
+    networks:
+      - data_net
+    volumes:
+      - ubuntu_data:/app/data
+
+    command: tail -f /dev/null 
+
+
+networks:
+  data_net:
+    driver: bridge
+
+
+volumes:
+  ubuntu_data:
