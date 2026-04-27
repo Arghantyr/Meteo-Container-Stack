@@ -9,8 +9,24 @@ services:
     volumes:
       - ubuntu_data:/app/data
 
-    command: tail -f /dev/null 
+    command: tail -f /dev/null
 
+  db:
+    build:
+      context: ./db
+    container_name: postgres-db
+    hostname: pgdb
+    networks:
+      - data_net
+    volumes:
+      - db_data:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    restart: unless-stopped
 
 networks:
   data_net:
@@ -21,3 +37,4 @@ networks:
 
 volumes:
   ubuntu_data:
+  db_data:
